@@ -1,4 +1,4 @@
-FROM ubuntu:17.04
+FROM ubuntu:18.04
 
 RUN echo "Android SDK 28.0.3"
 
@@ -28,9 +28,10 @@ RUN apt-get -qq update && \
 RUN rm -f /etc/ssl/certs/java/cacerts; \
     /var/lib/dpkg/info/ca-certificates-java.postinst configure
 
-RUN curl -s https://dl.google.com/android/repository/platform-tools-latest-linux.zip > /sdk.zip && \
-    unzip /sdk.zip -d /sdk && \
-    rm -v /sdk.zip
+# see https://developer.android.com/studio/#downloads for version code
+RUN curl -s https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip > sdk.zip && \
+    unzip sdk.zip -d ${ANDROID_HOME} && \
+    rm -v sdk.zip
 
 ADD packages.txt /sdk
 RUN mkdir -p /root/.android && \
@@ -48,10 +49,10 @@ RUN echo "Installing Node.JS repo" \
 	&& curl -sL https://deb.nodesource.com/setup_10.x | bash -
 
 RUN echo "Installing Additional Libraries" \
-	 && apt-get install -qqy --no-install-recommends nodejs
+	 && apt-get install -qqy --no-install-recommends nodejs wget
 
 ENV GRADLE_HOME /opt/gradle
-ENV GRADLE_VERSION 3.3.1
+ENV GRADLE_VERSION 3.3
 
 RUN echo "Downloading Gradle" \
 	&& wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
