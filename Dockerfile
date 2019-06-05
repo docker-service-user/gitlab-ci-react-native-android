@@ -52,7 +52,7 @@ RUN echo "Installing Additional Libraries" \
 	 && apt-get install -qqy --no-install-recommends nodejs wget
 
 ENV GRADLE_HOME /opt/gradle
-ENV GRADLE_VERSION 3.3
+ENV GRADLE_VERSION 5.4.1
 
 RUN echo "Downloading Gradle" \
 	&& wget --no-verbose --output-document=gradle.zip "https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip"
